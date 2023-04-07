@@ -3,7 +3,7 @@ import { Navbar } from "./navbar.js";
 import { Sidebar } from "./sidebar.js";
 
 export default hopeTheme({
-  hostname: "https://mister-hope.github.io",
+  hostname: "https://deantook.top",
 
   author: {
     name: "陈清华",
@@ -11,8 +11,6 @@ export default hopeTheme({
   },
 
   iconAssets: "iconfont",
-
-  // logo: "/logo.svg",
 
   docsDir: "docs",
 
@@ -27,10 +25,7 @@ export default hopeTheme({
 
   locales: {
     "/": {
-      // navbar
       navbar: Navbar,
-
-      // sidebar
       sidebar: Sidebar,
 
       footer: "好风凭借力，送我上青云",
@@ -58,19 +53,15 @@ export default hopeTheme({
     blog: {
       autoExcerpt: true,
     },
-
-    // If you don’t need comment feature, you can remove following option
-    // The following config is for demo ONLY, if you need comment feature, please generate and use your own config, see comment plugin documentation for details.
-    // To avoid disturbing the theme developer and consuming his resources, please DO NOT use the following config directly in your production environment!!!!!
     comment: {
       /**
        * Using Giscus
        */
-      provider: "Giscus",
-      repo: "vuepress-theme-hope/giscus-discussions",
-      repoId: "R_kgDOG_Pt2A",
-      category: "Announcements",
-      categoryId: "DIC_kwDOG_Pt2M4COD69",
+      // provider: "Giscus",
+      // repo: "vuepress-theme-hope/giscus-discussions",
+      // repoId: "R_kgDOG_Pt2A",
+      // category: "Announcements",
+      // categoryId: "DIC_kwDOG_Pt2M4COD69",
 
       /**
        * Using Twikoo

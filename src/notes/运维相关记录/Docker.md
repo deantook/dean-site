@@ -1,45 +1,52 @@
-# CentOS 安装 Docker
+---
+title: Docker 的安装
+tag: 
+    - 运维
+    - Docker
+---
+# Docker 的安装
 
 ```bash
-sudo yum remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-engine
+yum remove docker \
+      docker-client \
+      docker-client-latest \
+      docker-common \
+      docker-latest \
+      docker-latest-logrotate \
+      docker-logrotate \
+      docker-engine
                   
-sudo yum install -y yum-utils
+yum install -y yum-utils
 
-sudo yum-config-manager \
+yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
 
-sudo yum install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+yum install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-sudo systemctl start docker
+systemctl start docker
 
-sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <<-'EOF'
+mkdir -p /etc/docker
+tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": ["https://2j617oo7.mirror.aliyuncs.com"]
 }
 EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
+systemctl daemon-reload
+systemctl restart docker
 
 
-
+# mysql
 docker run -itd --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=dean123 mysql
+# redis
 docker run --name redis -p 6379:6379 -d --restart=always redis --appendonly yes --requirepass dean123
+# nacos
 docker run -d --name nacos -p 8848:8848 -p 9848:9848 -p 9849:9849 -e PREFER_HOST_MODE=hostname -e MODE=standalone nacos/nacos-server
+# postgres
 docker run -it --name postgres --restart always -e POSTGRES_PASSWORD='dean123' -p 5432:5432 -d postgres
 
-
-
+# elastic
 docker network create elastic
-
 docker pull docker.elastic.co/elasticsearch/elasticsearch:8.3.3
 docker pull docker.elastic.co/kibana/kibana:8.3.3
 
@@ -57,17 +64,7 @@ docker run --name elasticsearch --net elastic -p 9200:9200 -p 9300:9300 \
 -v /data/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins \
 -it docker.elastic.co/elasticsearch/elasticsearch:8.3.3
 
-
-docker run --name elasticsearch --net elastic -p 9200:9200 -p 9300:9300 \
--e  "discovery.type=single-node" \
--e "xpack.security.enabled=false" \
--e ES_JAVA_OPTS="-Xms1024m -Xmx1024m" \
--it docker.elastic.co/elasticsearch/elasticsearch:8.3.3
-
-
 docker run --name kibana --net elastic -p 5601:5601 docker.elastic.co/kibana/kibana:8.3.3
-
-
 
 ```
 
