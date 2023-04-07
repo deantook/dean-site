@@ -23,8 +23,10 @@ export const Sidebar = sidebar({
                     prefix: "生产级系统框架设计的细节",
                     collapsible: true,
                     children: [
-                        "幂等性设计——保证数据的一致性",
-                        "接口参数校验——增强服务健壮性",
+                        "幂等性设计",
+                        "接口参数校验",
+                        "统一异常处理",
+                        "高质量的异步任务",
                     ]
                 },
             ]
