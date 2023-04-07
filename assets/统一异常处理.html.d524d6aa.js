@@ -1,0 +1,70 @@
+import{_ as n}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as s,c as a,d as e}from"./app.32ce2463.js";const t={},p=e(`<h1 id="统一异常处理" tabindex="-1"><a class="header-anchor" href="#统一异常处理" aria-hidden="true">#</a> 统一异常处理</h1><p>在实际的开发中，有些程序会抛出各种各样的异常。比如我们访问 spring 项目中一个不存在的地址，则会返回如下信息</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>{
+    &quot;timestamp&quot;: &quot;2023-04-07T15:27:44.512+00:00&quot;,
+    &quot;status&quot;: 404,
+    &quot;error&quot;: &quot;Not Found&quot;,
+    &quot;path&quot;: &quot;/hello&quot;
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>如果因为程序产生异常，则会返回如下信息</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>{
+    &quot;timestamp&quot;: &quot;2023-04-07T15:31:20.069+00:00&quot;,
+    &quot;status&quot;: 500,
+    &quot;error&quot;: &quot;Internal Server Error&quot;,
+    &quot;path&quot;: &quot;/hello&quot;
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>Spring Boot 的这种默认的异常处理机制对用户并不友好。在前后端分离的系统中，这种返回的信息很难捕获和处理。在企业级系统中，有必要在框架层进行统一异常处理封装，如果不进行统一的封装，杂乱无章的信息会导致用户体验较差，每个前端开发人员都有自己的处理异常的习惯，会导致前端系统成为屎山。另外，不规范的异常封装也会对定位和排查问题带来一定的难度。</p><h2 id="使用-restcontrolleradvice注解进行统一的异常处理" tabindex="-1"><a class="header-anchor" href="#使用-restcontrolleradvice注解进行统一的异常处理" aria-hidden="true">#</a> 使用@RestControllerAdvice注解进行统一的异常处理</h2><h3 id="自定义异常类" tabindex="-1"><a class="header-anchor" href="#自定义异常类" aria-hidden="true">#</a> 自定义异常类</h3><p>1.自定义基础异常类</p><div class="language-java line-numbers-mode" data-ext="java"><pre class="language-java"><code><span class="token annotation punctuation">@Getter</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BaseException</span> <span class="token keyword">extends</span> <span class="token class-name">RuntimeException</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token number">1L</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token keyword">module</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">Integer</span> code<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> defaultMessage<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">BaseException</span><span class="token punctuation">(</span><span class="token class-name">String</span> <span class="token keyword">module</span><span class="token punctuation">,</span> <span class="token class-name">Integer</span> code<span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">,</span> <span class="token class-name">String</span> defaultMessage<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">module</span> <span class="token operator">=</span> <span class="token keyword">module</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>code <span class="token operator">=</span> code<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>args <span class="token operator">=</span> args<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>defaultMessage <span class="token operator">=</span> defaultMessage<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">BaseException</span><span class="token punctuation">(</span><span class="token class-name">String</span> <span class="token keyword">module</span><span class="token punctuation">,</span> <span class="token class-name">Integer</span> code<span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">(</span><span class="token keyword">module</span><span class="token punctuation">,</span> code<span class="token punctuation">,</span> args<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">BaseException</span><span class="token punctuation">(</span><span class="token class-name">String</span> <span class="token keyword">module</span><span class="token punctuation">,</span> <span class="token class-name">String</span> defaultMessage<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">(</span><span class="token keyword">module</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">BaseException</span><span class="token punctuation">(</span><span class="token class-name">Integer</span> code<span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> code<span class="token punctuation">,</span> args<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">BaseException</span><span class="token punctuation">(</span><span class="token class-name">String</span> defaultMessage<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> defaultMessage<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> defaultMessage<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>2.自定义业务异常类</p><div class="language-java line-numbers-mode" data-ext="java"><pre class="language-java"><code><span class="token annotation punctuation">@AllArgsConstructor</span>
+<span class="token annotation punctuation">@Getter</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ServiceException</span> <span class="token keyword">extends</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span><span class="token number">1L</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">Integer</span> code<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> message<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> message<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="捕获全局异常并进行统一处理" tabindex="-1"><a class="header-anchor" href="#捕获全局异常并进行统一处理" aria-hidden="true">#</a> 捕获全局异常并进行统一处理</h3><div class="language-java line-numbers-mode" data-ext="java"><pre class="language-java"><code><span class="token annotation punctuation">@Slf4j</span>
+<span class="token annotation punctuation">@RestControllerAdvice</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GlobalExceptionHandler</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@ExceptionHandler</span>
+    <span class="token keyword">public</span> <span class="token class-name">IResponse</span> <span class="token function">baseException</span><span class="token punctuation">(</span><span class="token class-name">BaseException</span> e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token class-name">BaseResponse</span><span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,14),o=[p];function c(l,i){return s(),a("div",null,o)}const r=n(t,[["render",c],["__file","统一异常处理.html.vue"]]);export{r as default};
