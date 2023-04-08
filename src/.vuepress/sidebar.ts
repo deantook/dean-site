@@ -27,6 +27,16 @@ export const Sidebar = sidebar({
                         "接口参数校验",
                         "统一异常处理",
                         "高质量的异步任务",
+                        "对象转换实战",
+                    ]
+                },
+                {
+                    text: "缓存设计",
+                    prefix: "缓存设计",
+                    collapsible: true,
+                    children: [
+                        "什么是缓存",
+                        "缓存的使用",
                     ]
                 },
             ]
