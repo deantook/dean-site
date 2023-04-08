@@ -1,4 +1,4 @@
-import{_ as a}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as s,c as n,d as e}from"./app.32ce2463.js";const l={},t=e(`<h1 id="docker-的安装" tabindex="-1"><a class="header-anchor" href="#docker-的安装" aria-hidden="true">#</a> Docker 的安装</h1><div class="language-bash line-numbers-mode" data-ext="sh"><pre class="language-bash"><code>yum remove <span class="token function">docker</span> <span class="token punctuation">\\</span>
+import{_ as a}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as s,c as n,d as e}from"./app.6ab1a790.js";const l={},t=e(`<h1 id="docker-的安装" tabindex="-1"><a class="header-anchor" href="#docker-的安装" aria-hidden="true">#</a> Docker 的安装</h1><div class="language-bash line-numbers-mode" data-ext="sh"><pre class="language-bash"><code>yum remove <span class="token function">docker</span> <span class="token punctuation">\\</span>
       docker-client <span class="token punctuation">\\</span>
       docker-client-latest <span class="token punctuation">\\</span>
       docker-common <span class="token punctuation">\\</span>
