@@ -1,4 +1,4 @@
-import{_ as n}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as s,c as a,d as e}from"./app.6ab1a790.js";const t={},p=e(`<h1 id="统一异常处理" tabindex="-1"><a class="header-anchor" href="#统一异常处理" aria-hidden="true">#</a> 统一异常处理</h1><p>在实际的开发中，有些程序会抛出各种各样的异常。比如我们访问 spring 项目中一个不存在的地址，则会返回如下信息</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>{
+import{_ as n}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as s,c as a,d as e}from"./app.1a439a22.js";const t={},p=e(`<h1 id="统一异常处理" tabindex="-1"><a class="header-anchor" href="#统一异常处理" aria-hidden="true">#</a> 统一异常处理</h1><p>在实际的开发中，有些程序会抛出各种各样的异常。比如我们访问 spring 项目中一个不存在的地址，则会返回如下信息</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>{
     &quot;timestamp&quot;: &quot;2023-04-07T15:27:44.512+00:00&quot;,
     &quot;status&quot;: 404,
     &quot;error&quot;: &quot;Not Found&quot;,
