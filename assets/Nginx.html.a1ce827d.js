@@ -1,4 +1,4 @@
-import{_ as n}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as i,c as e,d as l}from"./app.cbc40f84.js";const s={},d=l(`<h1 id="nginx-的安装" tabindex="-1"><a class="header-anchor" href="#nginx-的安装" aria-hidden="true">#</a> Nginx 的安装</h1><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>yum install -y git gcc pcre pcre-devel zlib zlib-devel flex bison
+import{_ as n}from"./_plugin-vue_export-helper.cdc0426e.js";import{o as i,c as e,d as l}from"./app.7628e15f.js";const s={},d=l(`<h1 id="nginx-的安装" tabindex="-1"><a class="header-anchor" href="#nginx-的安装" aria-hidden="true">#</a> Nginx 的安装</h1><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>yum install -y git gcc pcre pcre-devel zlib zlib-devel flex bison
 
 cd /usr/local/src
 wget https://nginx.org/download/nginx-1.21.1.tar.gz
