@@ -48,7 +48,8 @@ export const Sidebar = sidebar({
             collapsible: true,
             children: [
                 "Nginx",
-                "Docker"
+                "Docker",
+                "k8s"
             ]
         },
 
