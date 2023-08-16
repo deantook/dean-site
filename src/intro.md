@@ -1,8 +1,10 @@
 ---
 icon: circle-info
-cover: /assets/images/cover3.jpg
+cover: /assets/images/cover1.jpg
 ---
 
 # 介绍页
 
-将你的个人介绍和档案放置在此处。
+欢迎入群交流：609475572
+
+友情链接：https://stiflea.top

@@ -9,6 +9,14 @@ export default navbar([
     prefix: "/posts/",
     children: [
       {
+        text:"devops",
+        icon: "pen-to-square",
+        prefix: "devops/",
+        children:[
+            "nginx",
+        ]
+      },
+      {
         text: "苹果",
         icon: "pen-to-square",
         prefix: "apple/",
