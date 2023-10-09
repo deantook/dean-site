@@ -1,7 +1,7 @@
 {
   "name": "blog",
   "version": "1.0.0",
-  "description": "A project of vuepress-theme-hope",
+  "description": "Logeeck",
   "license": "MIT",
   "type": "module",
   "scripts": {

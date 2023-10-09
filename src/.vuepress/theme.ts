@@ -9,7 +9,7 @@ export default hopeTheme({
   hostname: "https://deantook.top",
 
   author: {
-    name: "陈最不知归路",
+    name: "deantook",
     url: "https://deantook.top",
   },
 
@@ -32,7 +32,7 @@ export default hopeTheme({
   displayFooter: true,
 
   blog: {
-    description: "全栈开发工程师",
+    description: "full-stack software engineer",
     intro: "/intro.html",
     medias: {
       BiliBili: "https://bilibili.com",
